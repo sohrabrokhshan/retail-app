@@ -8,16 +8,27 @@ type Stock {
   address: String!
 }
 
+type Product {
+  id: Int!
+  name: String!
+  description: String
+}
+
 type Query {
   root: String!
   stocks: [Stock!]!
   stock(id: Int!): Stock!
+  products: [Product!]!
+  product(id: Int!): Product!
 }
 
 type Mutation {
   createStock(createStockInput: CreateStockInput!): Stock!
   updateStock(updateStockInput: UpdateStockInput!): Stock!
   removeStock(id: Int!): Stock!
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
+  removeProduct(id: Int!): Product!
 }
 
 input CreateStockInput {
@@ -28,5 +39,16 @@ input CreateStockInput {
 input UpdateStockInput {
   name: String
   address: String
+  id: Int!
+}
+
+input CreateProductInput {
+  name: String!
+  description: String
+}
+
+input UpdateProductInput {
+  name: String
+  description: String
   id: Int!
 }

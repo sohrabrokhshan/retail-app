@@ -6,13 +6,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppResolver } from './app.resolver';
 import { StocksModule } from './stocks/stocks.module';
 import { Stock } from './stocks/stock.entity';
+import { ProductsModule } from './products/products.module';
+import { Product } from './products/product.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',
-      entities: [Stock],
+      entities: [Stock, Product],
       synchronize: true,
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -21,7 +23,8 @@ import { Stock } from './stocks/stock.entity';
       debug: true,
       playground: true,
     }),
-    StocksModule
+    StocksModule,
+    ProductsModule
   ],
   providers: [AppResolver],
 })
