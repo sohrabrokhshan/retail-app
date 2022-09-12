@@ -6,9 +6,8 @@ import { ProductsService } from './products.service';
 import { ProductsResolver } from './products.resolver';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Product]),
-  ],
-  providers: [ProductsResolver, ProductsService]
+  imports: [TypeOrmModule.forFeature([Product])],
+  providers: [ProductsResolver, ProductsService],
+  exports: [ProductsService],
 })
 export class ProductsModule {}

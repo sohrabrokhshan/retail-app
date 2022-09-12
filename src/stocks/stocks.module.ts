@@ -7,6 +7,7 @@ import { Stock } from './stock.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Stock])],
-  providers: [StocksResolver, StocksService]
+  providers: [StocksResolver, StocksService],
+  exports: [StocksService],
 })
 export class StocksModule {}

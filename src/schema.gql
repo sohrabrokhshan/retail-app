@@ -14,12 +14,29 @@ type Product {
   description: String
 }
 
+type ProductInventory {
+  id: Int!
+  quantity: Int!
+  stockId: Int!
+  stock: Stock!
+  productId: Int!
+  product: Product!
+  deletedDate: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Query {
   root: String!
   stocks: [Stock!]!
   stock(id: Int!): Stock!
   products: [Product!]!
   product(id: Int!): Product!
+  productsInventories: [ProductInventory!]!
+  ProductInventory(id: Int!): ProductInventory!
 }
 
 type Mutation {
@@ -29,6 +46,10 @@ type Mutation {
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
   removeProduct(id: Int!): Product!
+  createProductInventory(createProductInventoryInput: CreateProductInventoryInput!): ProductInventory!
+  updateProductInventory(updateProductInventoryInput: UpdateProductInventoryInput!): ProductInventory!
+  removeProductInventory(id: Int!): ProductInventory!
+  restoreProductInventory(id: Int!): ProductInventory!
 }
 
 input CreateStockInput {
@@ -50,5 +71,18 @@ input CreateProductInput {
 input UpdateProductInput {
   name: String
   description: String
+  id: Int!
+}
+
+input CreateProductInventoryInput {
+  stockId: Int!
+  productId: Int!
+  quantity: Int!
+}
+
+input UpdateProductInventoryInput {
+  stockId: Int
+  productId: Int
+  quantity: Int
   id: Int!
 }
