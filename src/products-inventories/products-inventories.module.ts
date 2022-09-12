@@ -14,5 +14,6 @@ import { ProductsModule } from './../products/products.module';
     ProductsModule,
   ],
   providers: [ProductsInventoriesResolver, ProductsInventoriesService],
+  exports: [ProductsInventoriesService]
 })
 export class ProductsInventoriesModule {}

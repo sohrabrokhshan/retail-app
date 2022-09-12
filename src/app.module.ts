@@ -10,13 +10,15 @@ import { ProductsModule } from './products/products.module';
 import { Product } from './products/product.entity';
 import { ProductsInventoriesModule } from './products-inventories/products-inventories.module';
 import { ProductInventory } from './products-inventories/product-inventory.entity';
+import { SalesModule } from './sales/sales.module';
+import { Sale } from './sales/sale.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',
-      entities: [Stock, Product, ProductInventory],
+      entities: [Stock, Product, ProductInventory, Sale],
       synchronize: true,
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -27,7 +29,8 @@ import { ProductInventory } from './products-inventories/product-inventory.entit
     }),
     StocksModule,
     ProductsModule,
-    ProductsInventoriesModule
+    ProductsInventoriesModule,
+    SalesModule
   ],
   providers: [AppResolver],
 })

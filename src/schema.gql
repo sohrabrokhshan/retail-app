@@ -30,6 +30,15 @@ type Product {
   inventories: [ProductInventory!]!
 }
 
+type Sale {
+  id: Int!
+  customer: String!
+  quantity: Int!
+  inventoryId: Int!
+  inventory: ProductInventory!
+  description: String
+}
+
 type Query {
   root: String!
   stocks: [Stock!]!
@@ -38,6 +47,8 @@ type Query {
   product(id: Int!): Product!
   productsInventories: [ProductInventory!]!
   ProductInventory(id: Int!): ProductInventory!
+  sales: [Sale!]!
+  sale(id: Int!): Sale!
 }
 
 type Mutation {
@@ -51,6 +62,9 @@ type Mutation {
   updateProductInventory(updateProductInventoryInput: UpdateProductInventoryInput!): ProductInventory!
   removeProductInventory(id: Int!): ProductInventory!
   restoreProductInventory(id: Int!): ProductInventory!
+  createSale(createSaleInput: CreateSaleInput!): Sale!
+  updateSale(updateSaleInput: UpdateSaleInput!): Sale!
+  removeSale(id: Int!): Sale!
 }
 
 input CreateStockInput {
@@ -85,5 +99,20 @@ input UpdateProductInventoryInput {
   stockId: Int
   productId: Int
   quantity: Int
+  id: Int!
+}
+
+input CreateSaleInput {
+  customer: String!
+  quantity: Int!
+  inventoryId: Int!
+  description: String!
+}
+
+input UpdateSaleInput {
+  customer: String
+  quantity: Int
+  inventoryId: Int
+  description: String
   id: Int!
 }

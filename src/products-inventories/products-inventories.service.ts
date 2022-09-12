@@ -88,4 +88,21 @@ export class ProductsInventoriesService {
   getProduct(productId: number): Promise<Product> {
     return this.productsService.findOne(productId);
   }
+
+  decreaseQuantity(inventory: ProductInventory, quantity: number) {
+    this.checkQuantity(inventory, quantity);
+    inventory.quantity = inventory.quantity - quantity;
+    this.inventoryRepo.save(inventory);
+  }
+
+  increaseQuantity(inventory: ProductInventory, quantity: number) {
+    inventory.quantity = inventory.quantity + quantity;
+    this.inventoryRepo.save(inventory);
+  }
+
+  private checkQuantity(inventory: ProductInventory, quantity: number) {
+    if (inventory.quantity < quantity) {
+      throw new Error('The inventory quantity is not enough to decrease');
+    }
+  }
 }
