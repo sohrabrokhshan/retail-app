@@ -1,5 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+
+import { ProductInventory } from 'src/products-inventories/product-inventory.entity';
 
 @Entity()
 @ObjectType()
@@ -8,19 +10,26 @@ export class Product {
   @Field(() => Int)
   id: number;
 
-  @Field()
   @Column({
     type: 'varchar',
     length: 100,
     unique: true,
   })
+  @Field()
   name: string;
 
-  @Field({nullable: true})
   @Column({
     type: 'varchar',
     length: 255,
     nullable: true,
   })
+  @Field({ nullable: true })
   description?: string;
+
+  @OneToMany(
+    () => ProductInventory,
+    (inventory: ProductInventory) => inventory.product,
+  )
+  @Field(() => [ProductInventory])
+  inventories: ProductInventory[];
 }

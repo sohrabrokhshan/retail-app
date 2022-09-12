@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './product.entity';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
+import { ProductInventory } from 'src/products-inventories/product-inventory.entity';
 
 @Injectable()
 export class ProductsService {
@@ -25,11 +26,14 @@ export class ProductsService {
     return this.productRepo.find();
   }
 
-  async findOne(id: number) {
-    const product = await this.productRepo.findOneBy({id});
-    
-    if (! product) {
-      throw new NotFoundException('The product was not found')
+  async findOne(id: number, relations: Array<string> = []) {
+    const product = await this.productRepo.findOne({
+      where: { id: id },
+      relations: relations,
+    });
+
+    if (!product) {
+      throw new NotFoundException('The product was not found');
     }
 
     return product;
@@ -47,5 +51,10 @@ export class ProductsService {
     const product = await this.findOne(id);
     this.productRepo.remove(product);
     return product;
+  }
+
+  async getInventories(productId: number): Promise<ProductInventory[]> {
+    const product = await this.findOne(productId, ['inventories']);
+    return product.inventories;
   }
 }

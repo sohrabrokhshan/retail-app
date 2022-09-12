@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
 import { ProductsService } from './products.service';
 import { Product } from './product.entity';
 import { CreateProductInput } from './dto/create-product.input';
@@ -21,6 +21,11 @@ export class ProductsResolver {
   @Query(() => Product, { name: 'product' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.productsService.findOne(id);
+  }
+
+  @ResolveField()
+  inventories(@Parent() product: Product) {
+    return this.productsService.getInventories(product.id);
   }
 
   @Mutation(() => Product)
